@@ -1,0 +1,265 @@
+/* ======= Шрифт ======= */
+@font-face {
+  font-family: 'PixelFont';
+  src: url('fonts/VCROSDMonoNova.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* ======= Базовые стили ======= */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'PixelFont', monospace;
+  overflow: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none; /* чтобы не мешать кликам */
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0,0,0,0) 50%, /* центр прозрачный */
+    rgba(0,0,0,0.8) 100% /* края затемнены */
+  );
+  z-index: 50; /* выше всех слоев, кроме интерфейса */
+}
+
+
+/* ======= Фон ======= */
+.background {
+  position: fixed;
+  top: -10px;
+  left: -10px;
+  width: calc(100% + 20px);
+  height: calc(100% + 20px);
+  background: url('Image/Background.gif') no-repeat center center;
+  background-size: cover;
+  filter: blur(5px);
+  z-index: -1;
+}
+
+/* ======= Снежинки ======= */
+.snowflake {
+  position: absolute;
+  top: -10px;
+  width: 3px;
+  height: 3px;
+  background-color: white;
+  opacity: 0;
+  animation-name: fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
+  --amplitude: 5px;
+  --frequency: 2s;
+  z-index: 25;
+}
+
+@keyframes fall {
+  0%   { transform: translateX(0) translateY(0); opacity: 0; }
+  10%  { opacity: 1; }
+  100% { transform: translateX(var(--amplitude)) translateY(100vh); opacity: 1; }
+}
+
+/* ======= Таймер ======= */
+.timer-wrapper {
+  position: fixed;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 420px;
+  height: auto;
+  z-index: 20;
+}
+
+.timer-wrapper img {
+  width: 100%;
+  display: block;
+  image-rendering: pixelated;
+}
+
+.timer-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'PixelFont', monospace;
+  font-size: 30px;
+  color: #fff;
+  text-shadow: 2px 2px 0 #000;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* ======= Аркадный автомат ======= */
+#arcade-wrapper {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1100px; /* масштаб автомата */
+  height: auto;
+  z-index: 15;
+}
+
+#arcade {
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+  display: block;
+}
+
+/* ======= Экран монитора ======= */
+#screen {
+  position: absolute;
+  top: 237px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 582px;       /* ширина экрана */
+  height: 283px;      /* высота экрана */
+  background-image: url('Image/Game-Background.svg');
+  overflow: hidden;
+  z-index: 20;
+
+/* ======= Свечения монитора ======= */
+  box-shadow:
+    0 0 25px rgba(0, 255, 255, 0.45),
+    0 0 60px rgba(0, 255, 255, 0.25),
+    inset 0 0 45px rgba(0, 255, 255, 0.35),
+    inset 0 0 90px rgba(0, 255, 255, 0.2);
+
+  filter: brightness(1.15) saturate(1.2);
+  animation: screenGlow 2.5s ease-in-out infinite;
+  
+}
+
+#screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 255, 255, 0.35) 0%,
+    rgba(0, 255, 255, 0.18) 35%,
+    rgba(0, 255, 255, 0.08) 55%,
+    rgba(0, 0, 0, 0) 75%
+  );
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+/* ======= CRT-линии ======= */
+#screen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.06),
+      rgba(255,255,255,0.06) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
+/* ======= Анимация света ======= */
+@keyframes screenGlow {
+  0% {
+    filter: brightness(1.12) saturate(1.1);
+  }
+  25% {
+    filter: brightness(1.15) saturate(1.12);
+  }
+  50% {
+    filter: brightness(1.18) saturate(1.15);
+  }
+  75% {
+    filter: brightness(1.15) saturate(1.12);
+  }
+  100% {
+    filter: brightness(1.12) saturate(1.1);
+  }
+}
+
+
+/* ======= Игрок ======= */
+#player {
+  position: absolute;
+  bottom: 0;
+  left: 50px;
+  width: 100px;
+  height: 100px;
+  background-image: url('Image/Player.svg');
+  image-rendering: pixelated;
+}
+
+#player.jump {
+  background-image: url('Image/Player-Jump.svg');
+}
+
+#player.dead {
+  background-image: url('Image/Player-GameOver.svg');
+  width: 100px;   /* под размер лежачего персонажа */
+  height: 100px;   /* если меньше, чем стоячий */
+  bottom: 0;      /* остаётся на земле */
+}
+
+
+/* ======= Препятствия ======= */
+.obstacle {
+  position: absolute;
+  bottom: 0;
+  width: 50px;
+  height: 50px;
+  background-image: url('Image/Obstacles.svg');
+  image-rendering: pixelated;
+}
+
+/* ======= Счёт ======= */
+#score {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-family: 'PixelFont', monospace;
+  font-size: 24px;
+  color: #d00;
+  z-index: 25;
+}
+
+#best-score {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  font-family: 'PixelFont', monospace;
+  font-size: 24px;
+  color: #d00;
+  z-index: 25;
+}
+
+/* ======= Кнопка Play ======= */
+#play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'PixelFont', monospace;
+  font-size: 20px;
+  color: #fff;
+  background-color: rgb(255, 0, 0);
+  border: 2px solid #fff;
+  padding: 5px 15px;
+  cursor: pointer;
+  image-rendering: pixelated;
+  z-index: 25;
+}
+
+#play-btn:hover {
+  background-color: rgb(163, 0, 0);
+}

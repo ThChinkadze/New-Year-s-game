@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Новогодняя игра</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Фон -->
+  <div class="background"></div>
+
+  <!-- Таймер -->
+  <div class="timer-wrapper">
+    <img src="Image/timer-frame.svg" alt="Timer Frame">
+    <div class="timer-text" id="countdown">00 : 00 : 00 : 00</div>
+  </div>
+
+  <!-- Аркадный автомат -->
+  <div id="arcade-wrapper">
+    <img src="Image/Arcade.svg" alt="Arcade Cabinet" id="arcade">
+    <div id="screen">
+      <button id="play-btn">PLAY</button>
+      <div id="player"></div>
+      <div id="score">0</div>
+      <div id="best-score">BEST: 0</div>
+    </div>
+  </div>
+
+  <!-- Звуки -->
+  <audio id="bg-music" src="Music/Music.mp3" loop></audio>
+  <audio id="jump-sound" src="Music/Jump.mp3"></audio>
+  <audio id="hit-sound" src="Music/Hit.mp3"></audio>
+  <audio id="click-sound" src="Music/Pressing.mp3"></audio>
+  <audio id="bg-loop" src="Music/bg-loop.mp3" loop></audio>
+
+  <!-- Скрипт -->
+  <script src="script.js"></script>
+</body>
+</html>
