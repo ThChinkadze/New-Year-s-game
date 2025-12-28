@@ -121,7 +121,7 @@ body::before {
   transform: translateX(-50%);
   width: 582px;       /* ширина экрана */
   height: 283px;      /* высота экрана */
-  background-image: url('Image/Game-Background.svg');
+  background-image: url('image/Game-Background.svg');
   overflow: hidden;
   z-index: 20;
 
@@ -263,4 +263,5 @@ body::before {
 #play-btn:hover {
   background-color: rgb(163, 0, 0);
 }
+
 
